@@ -15,7 +15,7 @@ import {
   import Container from "components/Container";
   import { useQueryListEquipamento } from "service/equipamento";
   
-  import InstitutionsTableActions from "./InstitutionsTableActions";
+  import EquipamentoTableActions from "./EquipamentoTableActions";
 import EquipamentoModalCreate from "./EquipamentoModalCreate";
   
   const Equipamento = () => {
@@ -86,7 +86,7 @@ import EquipamentoModalCreate from "./EquipamentoModalCreate";
                     <Td>{equipamento.nome}</Td>
                     <Td>{equipamento.sigla}</Td>
                     <Td isNumeric>
-                      <InstitutionsTableActions equipamento={equipamento} />
+                      <EquipamentoTableActions equipamento={equipamento} />
                     </Td>
                   </Tr>
                 ))}

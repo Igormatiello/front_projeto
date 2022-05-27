@@ -14,14 +14,12 @@ import {
     { title: "Aluno", link: "/cadastro-aluno" },
     { title: "Professor", link: "/cadastro-professor" },
     { title: "Empresa", link: "/cadastro-empresa" }
-
   ];
 
   const Registro = () => {
     
     
     const toast = useToast();
-
 
     const {
         

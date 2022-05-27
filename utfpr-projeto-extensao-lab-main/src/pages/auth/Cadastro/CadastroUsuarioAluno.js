@@ -1,20 +1,18 @@
 import React from 'react'
-
-
-
 import Card from 'components/Card'
-import { Box, Flex,  FormControl } from '@chakra-ui/react'
-import {  Controller } from "react-hook-form";
+import { Box, Flex, FormControl } from '@chakra-ui/react'
+import { Controller } from "react-hook-form";
 import { salvar } from 'service/usuario'
 import { validar } from 'service/usuario'
 import FormFieldCities from 'components/FormFieldCities'
 
-import { withRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
+
 import { mensagemErro, mensagemSucesso } from 'components/Toastr'
 
 class CadastroUsuarioAluno extends React.Component {
 
-     
+
     state = {
         telefone: '',
         endereço: '',
@@ -34,7 +32,7 @@ class CadastroUsuarioAluno extends React.Component {
         senhaRepeticao: ''
     }
 
-   
+
     cadastrar = () => {
 
         const { telefone, endereço, nome, cidade, cpf, celular, bairro, n,
@@ -63,7 +61,7 @@ class CadastroUsuarioAluno extends React.Component {
                 mensagemErro(error.response.data)
             })
     }
-    
+
 
     cancelar = () => {
         this.props.history.push('/login')
@@ -89,7 +87,7 @@ class CadastroUsuarioAluno extends React.Component {
                                     onChange={e => this.setState({ nome: e.target.value })} />
                             </FormControl>
 
-              
+
                             <FormControl label="Telefone: *" htmlFor="inputTelefone">
                                 <input type="numeric"
                                     id="inputTelefone"
@@ -234,4 +232,4 @@ class CadastroUsuarioAluno extends React.Component {
     }
 }
 
-export default withRouter(CadastroUsuarioAluno)
+export default HashRouter(CadastroUsuarioAluno)

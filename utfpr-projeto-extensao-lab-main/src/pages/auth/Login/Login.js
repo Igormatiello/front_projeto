@@ -13,6 +13,10 @@ import {
 import { useForm } from "react-hook-form";
 
 import { useMutationAuth } from "service/auth";
+const cadastro = [
+  { title: "cadastro", link: "/cadastro" },
+
+];
 
 const Login = () => {
   const toast = useToast();
@@ -102,9 +106,17 @@ const Login = () => {
           <Link href="/cadastro">
             <Button variant="ghost"></Button>
           </Link>
-          Cadastre-se
+          
+          
+        {cadastro.map((item, index) => (
+          <Link key={index} to={item.link}>
+            <Button mt="50px"
+            type="submit" variant="ghost">{item.title}</Button>
+          </Link>
+        ))}
       </Flex>
 
+      
         
 
         </Flex>

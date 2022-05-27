@@ -15,15 +15,15 @@ import {
   Select
 } from "@chakra-ui/react";
 
+
 import React from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState } from 'draft-js';
+
 
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 
 import { useMutationCreateEquipamento } from "service/equipamento";
-
+const ReactQuill = require('react-quill');
 const EquipamentoModalCreate = ({ isOpen, onClose }) => {
   const {
     register,
@@ -31,10 +31,7 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
     formState: { errors },
   } = useForm();
 
-  const { editorState } = this.state;
-  this.state = {
-    editorState: EditorState.createEmpty(),
-  };
+  
 
   const { mutate, isLoading } = useMutationCreateEquipamento({
     onError: ({ response }) => {
@@ -63,9 +60,7 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
     },
 });
 
-  this.setState({
-    editorState,
-  });
+
 
 
   const queryClient = useQueryClient();
@@ -250,12 +245,9 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="metodologia">
                   Metodologia:
 
-                  <Editor
-                    initialEditorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                  />
+                  <ReactQuill value={this.state.text}
+                  onChange={this.handleChange} />
+
 
                 </FormLabel>
 
@@ -266,12 +258,9 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="laudoPadrao">
                  Laudo Padrão:
 
-                  <Editor
-                    initialEditorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                  />
+                 <ReactQuill value={this.state.text}
+                  onChange={this.handleChange} />
+
 
                 </FormLabel>
 
@@ -282,12 +271,9 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="obsFixas">
                  Observações fixas:
 
-                  <Editor
-                    initialEditorState={editorState}
-                    wrapperClassName="demo-wrapper"
-                    editorClassName="demo-editor"
-                    onEditorStateChange={this.onEditorStateChange}
-                  />
+                 <ReactQuill value={this.state.text}
+                  onChange={this.handleChange} />
+
 
                 </FormLabel>
 

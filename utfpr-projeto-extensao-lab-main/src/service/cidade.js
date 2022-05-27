@@ -37,3 +37,10 @@ export const useMutationDeleteCidade = (options = {}) =>
         .then((result) => result.data),
     options
   );
+
+  export const useQueryFindCidadeByUf = (options = {}) =>
+  useQuery(
+    ["queryFindCidadeByUf"],
+    ({uf}) => axios.get(`${BASE_URL}/cidade/busca?uf=${uf}`).then((result) => result.data),
+    options
+  );

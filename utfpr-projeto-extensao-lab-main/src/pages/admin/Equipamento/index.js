@@ -1,3 +1,3 @@
-export {default } from "./EquipamentoNovo";
+export {default } from "./Equipamento";
 
 
