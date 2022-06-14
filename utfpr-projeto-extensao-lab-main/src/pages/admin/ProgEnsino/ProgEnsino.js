@@ -20,6 +20,20 @@ import {
 
   import ProgEnsinoModalCreate from "./ProgEnsinoModalCreate";
   const ProgEnsino = () => {
+ 
+ <div>
+<h1>
+PROGRAMA ENSINO
+
+</h1>
+
+ </div>
+ 
+ 
+  }
+
+  /*
+  const ProgEnsino = () => {
     const { data, isLoading } = useQueryListInstitutions();
   
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -102,5 +116,5 @@ import {
       </>
     );
   };
-  
+  */
   export default ProgEnsino;

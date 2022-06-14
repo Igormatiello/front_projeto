@@ -17,9 +17,20 @@ import {
   import { useQueryListPessoa } from "service/pessoa";
 import PesssoaModalCreate from "./PessoaModalCreate";
 import PessoaTableActions from "./PessoaTableActions";
+const Pessoa = () => {
+
+<div>
+
+<h1>
+PESSOA
+
+</h1>
+
+</div>
+
+}
   
-  
-  
+  /*
   const Pessoa = () => {
     const { data, isLoading } = useQueryListPessoa();
   
@@ -113,5 +124,5 @@ import PessoaTableActions from "./PessoaTableActions";
       </>
     );
   };
-  
+  */
   export default Pessoa;

@@ -13,16 +13,16 @@ import {
 } from "@chakra-ui/react";
 
 import Container from "components/Container";
-import { useQueryListCidade } from "service/cidade";
-
+import {useQueryFindCidadeByUf} from "service/cidade"
 
 import CidadesTableActions from "./CidadesTableActions"
 import CidadesModalCreate from "./CidadesModalCreate"
 
 
 const Cidades = () => {
-    const { data, isLoading } = useQueryListCidade();
-
+    
+    const { data, isLoading } = useQueryFindCidadeByUf();
+    //if( data==null) {data='PR'}
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     if (isLoading) {
@@ -82,6 +82,8 @@ const Cidades = () => {
                         </Thead>
 
                         <Tbody>
+
+                            
                             {data.map((cidade) => (
                                 <Tr
                                     key={cidade.id}

@@ -6,17 +6,12 @@ import {
   Button,
   Text,
   FormErrorMessage,
-  useToast,
-  Link
+  useToast
 } from "@chakra-ui/react";
-
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import { useMutationAuth } from "service/auth";
-const cadastro = [
-  { title: "cadastro", link: "/cadastro" },
 
-];
 
 const Login = () => {
   const toast = useToast();
@@ -100,24 +95,12 @@ const Login = () => {
           >
             Login
           </Button>
-          
-          <Flex>
 
-          <Link href="/cadastro">
-            <Button variant="ghost"></Button>
+          <Link key="registro" to="/registro">
+            <Button variant="ghost">Cadastrar-se</Button>
           </Link>
-          
-          
-        {cadastro.map((item, index) => (
-          <Link key={index} to={item.link}>
-            <Button mt="50px"
-            type="submit" variant="ghost">{item.title}</Button>
-          </Link>
-        ))}
-      </Flex>
 
-      
-        
+
 
         </Flex>
       </form>

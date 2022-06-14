@@ -92,9 +92,6 @@ const CidadesModalCreate = ({ isOpen, onClose }) => {
                             </FormControl>
 
 
-
-
-
                          <FormControl isInvalid={errors.uf} mt="30px">
                 <FormLabel htmlFor="uf">
                   UF:

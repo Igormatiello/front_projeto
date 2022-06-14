@@ -13,11 +13,22 @@ import {
   import Container from "components/Container";
   import {useQueryListSolicitacaoCadastro} from "service/solicitacaoCadastro"
 
-
-
-
-  
   const SolicitacaoCadastro = () => {
+<div>
+<h1>
+
+SolicitacaoCadastro
+
+</h1>
+
+</div>
+
+  }
+
+
+  /*
+  const SolicitacaoCadastro = () => {
+
     const { data, isLoading } = useQueryListSolicitacaoCadastro();
   
   
@@ -121,4 +132,5 @@ import {
     );
   };
   
+  */
   export default SolicitacaoCadastro;

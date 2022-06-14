@@ -5,17 +5,24 @@ import { Routes, Route } from "react-router-dom";
 import LoadingBox from "components/LoadingBox";
 
 const Login = lazy(() => import("./Login"));
-const Cadastro = lazy(() => import("./Cadastro"));
+const Registro = lazy(() => import("./Registro"));
+const CadastroAluno = lazy(()=> import ("./Teste"));
+const CadastroProfessor = lazy(()=> import ("./CadastroProfessor"));
+const CadastroEmpresa = lazy(()=> import ("./CadastroEmpresa"));
 
 const Auth = () => {
   return (
     <Suspense fallback={<LoadingBox />}>
       <Routes>
-        <Route path="/" element={<Login />}>
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<Login />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-        </Route>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+
+
+        <Route path= "/cadastro-aluno" element ={<CadastroAluno/>}/>
+         <Route path= "/cadastro-empresa" element ={<CadastroEmpresa/>}/>
+         <Route path= "/cadastro-professor" element ={<CadastroProfessor/>}/>
+        <Route path="/registro" element={<Registro />} />
+        <Route path="*" element={<Login />} />
       </Routes>
     </Suspense>
   );

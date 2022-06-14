@@ -22,8 +22,12 @@ import React from 'react';
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "react-query";
 
+import TextEditor from 'components/TextEditor'
+import TextEditor2 from 'components/TextEditor2'
+
 import { useMutationCreateEquipamento } from "service/equipamento";
-const ReactQuill = require('react-quill');
+
+
 const EquipamentoModalCreate = ({ isOpen, onClose }) => {
   const {
     register,
@@ -245,8 +249,7 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="metodologia">
                   Metodologia:
 
-                  <ReactQuill value={this.state.text}
-                  onChange={this.handleChange} />
+                <TextEditor  />
 
 
                 </FormLabel>
@@ -258,9 +261,9 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="laudoPadrao">
                  Laudo Padrão:
 
-                 <ReactQuill value={this.state.text}
-                  onChange={this.handleChange} />
-
+                 <TextEditor
+                 
+                 />
 
                 </FormLabel>
 
@@ -270,10 +273,20 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
 
                 <FormLabel htmlFor="obsFixas">
                  Observações fixas:
+<div>
+<h1>
+inicio
+<TextEditor2>
+  
+</TextEditor2>
 
-                 <ReactQuill value={this.state.text}
-                  onChange={this.handleChange} />
+final
+</h1>
 
+</div>
+                 
+                 
+                
 
                 </FormLabel>
 

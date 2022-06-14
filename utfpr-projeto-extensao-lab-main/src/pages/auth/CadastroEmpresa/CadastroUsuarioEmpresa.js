@@ -1,17 +1,17 @@
 import React from 'react'
+
+
+import { HashRouter } from 'react-router-dom'
 import Card from 'components/Card'
-import { Box, Flex, FormControl } from '@chakra-ui/react'
+import { FormControl, Box, Flex} from '@chakra-ui/react'
 import { Controller } from "react-hook-form";
 import { salvar } from 'service/usuario'
 import { validar } from 'service/usuario'
 import FormFieldCities from 'components/FormFieldCities'
 
-import { HashRouter } from 'react-router-dom'
-
 import { mensagemErro, mensagemSucesso } from 'components/Toastr'
 
-class CadastroUsuarioAluno extends React.Component {
-
+class CadastroUsuarioEmpresa extends React.Component {
 
     state = {
         telefone: '',
@@ -35,14 +35,12 @@ class CadastroUsuarioAluno extends React.Component {
 
     cadastrar = () => {
 
-        const { telefone, endereço, nome, cidade, cpf, celular, bairro, n,
-            cep, instituicaoDeEnsino, nomeDoProgramaDeEnsino,
-            cpfOrientador, dataTermino, email, senha, senhaRepeticao } = this.state
+        const { nome, telefone, endereço, cidade, cnpj, inscricaoestadual, celular, bairro, n,
+            cep, email, senha, senhaRepeticao } = this.state
 
         const usuario = {
-            telefone, endereço, nome, cidade, cpf, celular, bairro, n,
-            cep, instituicaoDeEnsino, nomeDoProgramaDeEnsino,
-            cpfOrientador, dataTermino, email, senha, senhaRepeticao
+            nome, telefone, endereço, cidade, cnpj, inscricaoestadual, celular, bairro, n,
+            cep, email, senha, senhaRepeticao
         }
 
         try {
@@ -55,13 +53,12 @@ class CadastroUsuarioAluno extends React.Component {
 
         salvar(usuario)
             .then(response => {
-                mensagemSucesso('Usuário cadastrado com sucesso! Faça o login para acessar o sistema.')
+                mensagemSucesso('Empresa cadastrada com sucesso! Faça o login para acessar o sistema.')
                 this.props.history.push('/login')
             }).catch(error => {
                 mensagemErro(error.response.data)
             })
     }
-
 
     cancelar = () => {
         this.props.history.push('/login')
@@ -69,7 +66,7 @@ class CadastroUsuarioAluno extends React.Component {
 
     render() {
         return (
-            <Card title="Cadastro de Usuário - Aluno">
+            <Card title="Cadastro de Usuário - Empresa">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="bs-component">
@@ -86,7 +83,6 @@ class CadastroUsuarioAluno extends React.Component {
                                     name="nome"
                                     onChange={e => this.setState({ nome: e.target.value })} />
                             </FormControl>
-
 
                             <FormControl label="Telefone: *" htmlFor="inputTelefone">
                                 <input type="numeric"
@@ -119,12 +115,12 @@ class CadastroUsuarioAluno extends React.Component {
                             </Flex>
 
 
-                            <FormControl label="CPF: *" htmlFor="inputCPF">
+                            <FormControl label="CNPJ: *" htmlFor="inputCnpj">
                                 <input type="numeric"
-                                    id="inputCPF"
+                                    id="inputCnpj"
                                     className="form-control"
-                                    name="cpf"
-                                    onChange={e => this.setState({ cpf: e.target.value })} />
+                                    name="cnpj"
+                                    onChange={e => this.setState({ cnpj: e.target.value })} />
                             </FormControl>
 
                             <FormControl label="Celular: *" htmlFor="inputCelular">
@@ -159,33 +155,6 @@ class CadastroUsuarioAluno extends React.Component {
                                     onChange={e => this.setState({ cep: e.target.value })} />
                             </FormControl>
 
-                            <Box bg='tomato' w='100%' p={4} color='white'>
-                                Vínculo
-                            </Box>
-
-                            <FormControl label="Instituição de Ensino: *" htmlFor="inputInstituicaoEnsino">
-                                <input type="text"
-                                    id="inputInstituicaoEnsino"
-                                    className="form-control"
-                                    name="instituicaoEnsino"
-                                    onChange={e => this.setState({ instituicaoDeEnsino: e.target.value })} />
-                            </FormControl>
-
-                            <FormControl label="Nome do Programa de Ensino: *" htmlFor="inputNomeProgrmaEnsino">
-                                <input type="text"
-                                    id="inputNomeProgramaEnsino"
-                                    className="form-control"
-                                    name="nomeProgramaEnsino"
-                                    onChange={e => this.setState({ nomeDoProgramaDeEnsino: e.target.value })} />
-                            </FormControl>
-
-                            <FormControl label="CPF do Orientador: *" htmlFor="inputCPFOrientador">
-                                <input type="numeric"
-                                    id="inputCPFOrientador"
-                                    className="form-control"
-                                    name="cpfOrientador"
-                                    onChange={e => this.setState({ cpfOrientador: e.target.value })} />
-                            </FormControl>
 
                             <Box bg='tomato' w='100%' p={4} color='white'>
                                 Finalização - dados de acesso
@@ -211,19 +180,12 @@ class CadastroUsuarioAluno extends React.Component {
                                     name="senha"
                                     onChange={e => this.setState({ senhaRepeticao: e.target.value })} />
                             </FormControl>
-
-
-
                             <button onClick={this.cadastrar} type="button" className="btn btn-success">
                                 <i className="pi pi-save"></i> Enviar Solicitação de Cadastro
                             </button>
-
-
                             <button onClick={this.cancelar} type="button" className="btn btn-danger">
                                 <i className="pi pi-times"></i> Cancelar
                             </button>
-
-
                         </div>
                     </div>
                 </div>
@@ -232,4 +194,4 @@ class CadastroUsuarioAluno extends React.Component {
     }
 }
 
-export default HashRouter(CadastroUsuarioAluno)
+export default HashRouter(CadastroUsuarioEmpresa)
