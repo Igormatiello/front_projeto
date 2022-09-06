@@ -71,10 +71,7 @@ import {
           </Link>
         ))}
       
-     
-
-
-
+    
       </Flex>
       <Link key="login" to="/login">
       <Button variant="ghost">Voltar ao Login</Button>

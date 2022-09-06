@@ -1,239 +1,374 @@
-import React from 'react'
-import Card from 'components/Card'
-import { Box, Flex, FormControl } from '@chakra-ui/react'
-import { Controller } from "react-hook-form";
-import { salvar } from 'service/usuario'
-import { validar } from 'service/usuario'
-import FormFieldCities from 'components/FormFieldCities'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  useToast,
+  Flex,
+  Input,
+  Box
+} from "@chakra-ui/react";
 
-//import { HashRouter } from 'react-router-dom'
+import FormFieldCities from "components/FormFieldCities";
 
-import { mensagemErro, mensagemSucesso } from 'components/Toastr'
+import { useForm, Controller } from "react-hook-form";
+import { useQueryClient } from "react-query";
 
+import { useMutationCreateCadastro } from "service/usuario";
 
+const CadastroUsuarioAluno = ({ isOpen, onClose }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-class CadastroUsuarioAluno extends React.Component {
+  const queryClient = useQueryClient();
 
+  const toast = useToast();
 
+  const { mutate, isLoading } = useMutationCreateCadastro({
+    onError: ({ response }) => {
+      const message = response.data.message;
 
-    state = {
-        telefone: '',
-        endereço: '',
-        nome: '',
-        cidade: '',
-        cpf: '',
-        celular: '',
-        bairro: '',
-        n: '',
-        cep: '',
-        instituicaoDeEnsino: '',
-        nomeDoProgramaDeEnsino: '',
-        cpfOrientador: '',
-        dataTermino: '',
-        email: '',
-        senha: '',
-        senhaRepeticao: ''
-    }
+      toast({
+        title: message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
 
+      return;
+    },
+    onSuccess: async () => {
+      toast({
+        title: "Cadastro com sucesso!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
 
-    cadastrar = () => {
+      await queryClient.refetchQueries(["queryListCadastros"]);
 
-        const { telefone, endereço, nome, cidade, cpf, celular, bairro, n,
-            cep, instituicaoDeEnsino, nomeDoProgramaDeEnsino,
-            cpfOrientador, dataTermino, email, senha, senhaRepeticao } = this.state
+      return;
+    },
+  });
 
-        const usuario = {
-            telefone, endereço, nome, cidade, cpf, celular, bairro, n,
-            cep, instituicaoDeEnsino, nomeDoProgramaDeEnsino,
-            cpfOrientador, dataTermino, email, senha, senhaRepeticao
-        }
+  const onSubmit = async (data) => {
+    mutate(data);
+  };
 
-        try {
-            validar(usuario);
-        } catch (erro) {
-            const msgs = erro.mensagens;
-            msgs.forEach(msg => mensagemErro(msg));
-            return false;
-        }
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} size="3xl">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Cadastro de Aluno</ModalHeader>
 
-        salvar(usuario)
-            .then(response => {
-                mensagemSucesso('Usuário cadastrado com sucesso! Faça o login para acessar o sistema.')
-                this.props.history.push('/login')
-            }).catch(error => {
-                mensagemErro(error.response.data)
-            })
-    }
-
-
-    cancelar = () => {
-        this.props.history.push('/login')
-    }
-
-    render() {
-        return (
-            <Card title="Cadastro de Usuário - Aluno">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="bs-component">
+        <ModalCloseButton />
+        <ModalBody>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Flex direction="column" my="30px">
 
 
-                            <Box bg='tomato' w='100%' p={4} color='white'>
-                                Identificação - dados iniciais
-                            </Box>
+              <Box bg='tomato' w='100%' p={4} color='white'>
+                Identificação- dados iniciais
 
-                            <FormControl label="Nome: *" htmlFor="inputNome">
-                                <input type="text"
-                                    id="inputNome"
-                                    className="form-control"
-                                    name="nome"
-                                    onChange={e => this.setState({ nome: e.target.value })} />
-                            </FormControl>
+              </Box>
 
+              <FormControl isInvalid={errors.nome}>
+                <FormLabel htmlFor="nome">Nome do Aluno</FormLabel>
+                <Input
+                  id="nome"
+                  type="text"
+                  placeholder="ex: João Gomes"
+                  {...register("nome", {
+                    required: "O nome do aluno é obrigatório!",
+                  })}
+                />
 
-                            <FormControl label="Telefone: *" htmlFor="inputTelefone">
-                                <input type="numeric"
-                                    id="inputTelefone"
-                                    className="form-control"
-                                    name="telefone"
-                                    onChange={e => this.setState({ telefone: e.target.value })} />
-                            </FormControl>
+                {errors.nome && (
+                  <FormErrorMessage>{errors.nome.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
-                            <FormControl label="Endereço: *" htmlFor="inputEndereco">
-                                <input type="text"
-                                    id="inputEndereco"
-                                    className="form-control"
-                                    name="endereco"
-                                    onChange={e => this.setState({ endereço: e.target.value })} />
-                            </FormControl>
-                            <Flex mt="30px">
-                                <Controller
-                                    rules={{ required: true }}
-                                    render={({ field: { ref, ...rest } }) => (
-                                        <FormFieldCities
-                                            id="cidade"
-                                            label="Cidade"
+              <FormControl isInvalid={errors.telefone}>
+                <FormLabel htmlFor="telefone">Telefone</FormLabel>
+                <Input
+                  id="telefone"
+                  type="numeric"
+                  placeholder="ex: 49 999983513"
+                  {...register("telefone", {
+                    required: "O telefone é obrigatório!",
+                  })}
+                />
 
-                                        />
-                                    )}
-                                    name="cidade"
-                                    onChange={e => this.setState({ cidade: e.target.value })}
-                                />
-                            </Flex>
+                {errors.telefone && (
+                  <FormErrorMessage>{errors.telefone.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
 
-                            <FormControl label="CPF: *" htmlFor="inputCPF">
-                                <input type="numeric"
-                                    id="inputCPF"
-                                    className="form-control"
-                                    name="cpf"
-                                    onChange={e => this.setState({ cpf: e.target.value })} />
-                            </FormControl>
+              <FormControl isInvalid={errors.endereco}>
+                <FormLabel htmlFor="nome">Endereço</FormLabel>
+                <Input
+                  id="endereco"
+                  type="text"
+                  placeholder="ex: "
+                  {...register("endereco", {
+                    required: "O endereço é obrigatório!",
+                  })}
+                />
 
-                            <FormControl label="Celular: *" htmlFor="inputCelular">
-                                <input type="numeric"
-                                    id="inputCelular"
-                                    className="form-control"
-                                    name="celular"
-                                    onChange={e => this.setState({ celular: e.target.value })} />
-                            </FormControl>
+                {errors.endereco && (
+                  <FormErrorMessage>{errors.endereco.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
-                            <FormControl label="Bairro: *" htmlFor="inputBairro">
-                                <input type="text"
-                                    id="inputBairro"
-                                    className="form-control"
-                                    name="bairro"
-                                    onChange={e => this.setState({ bairro: e.target.value })} />
-                            </FormControl>
+              <Flex mt="30px">
+                <Controller
+                  rules={{ required: true }}
+                  render={({ field: { ref, ...rest } }) => (
+                    <FormFieldCities
+                      id="cidade"
+                      label="Cidade"
 
-                            <FormControl label="N: *" htmlFor="inputN">
-                                <input type="numeric"
-                                    id="inputN"
-                                    className="form-control"
-                                    name="N"
-                                    onChange={e => this.setState({ n: e.target.value })} />
-                            </FormControl>
+                    />
+                  )}
+                  name="cidade"
+                  onChange={e => this.setState({ cidade: e.target.value })}
+                />
+              </Flex>
 
-                            <FormControl label="CEP: *" htmlFor="inputCep">
-                                <input type="numeric"
-                                    id="inputCep"
-                                    className="form-control"
-                                    name="cep"
-                                    onChange={e => this.setState({ cep: e.target.value })} />
-                            </FormControl>
 
-                            <Box bg='tomato' w='100%' p={4} color='white'>
-                                Vínculo
-                            </Box>
+              <FormControl isInvalid={errors.cpf}>
+                <FormLabel htmlFor="cpf">CPF</FormLabel>
+                <Input
+                  id="cpf"
+                  type="numeric"
+                  placeholder="ex: 10001111111"
+                  {...register("cpf", {
+                    required: "O cpf é obrigatório!",
+                  })}
+                />
 
-                            <FormControl label="Instituição de Ensino: *" htmlFor="inputInstituicaoEnsino">
-                                <input type="text"
-                                    id="inputInstituicaoEnsino"
-                                    className="form-control"
-                                    name="instituicaoEnsino"
-                                    onChange={e => this.setState({ instituicaoDeEnsino: e.target.value })} />
-                            </FormControl>
-
-                            <FormControl label="Nome do Programa de Ensino: *" htmlFor="inputNomeProgrmaEnsino">
-                                <input type="text"
-                                    id="inputNomeProgramaEnsino"
-                                    className="form-control"
-                                    name="nomeProgramaEnsino"
-                                    onChange={e => this.setState({ nomeDoProgramaDeEnsino: e.target.value })} />
-                            </FormControl>
-
-                            <FormControl label="CPF do Orientador: *" htmlFor="inputCPFOrientador">
-                                <input type="numeric"
-                                    id="inputCPFOrientador"
-                                    className="form-control"
-                                    name="cpfOrientador"
-                                    onChange={e => this.setState({ cpfOrientador: e.target.value })} />
-                            </FormControl>
-
-                            <Box bg='tomato' w='100%' p={4} color='white'>
-                                Finalização - dados de acesso
-                            </Box>
-                            <FormControl label="Email: *" htmlFor="inputEmail">
-                                <input type="email"
-                                    id="inputEmail"
-                                    className="form-control"
-                                    name="email"
-                                    onChange={e => this.setState({ email: e.target.value })} />
-                            </FormControl>
-                            <FormControl label="Senha: *" htmlFor="inputSenha">
-                                <input type="password"
-                                    id="inputSenha"
-                                    className="form-control"
-                                    name="senha"
-                                    onChange={e => this.setState({ senha: e.target.value })} />
-                            </FormControl>
-                            <FormControl label="Repita a Senha: *" htmlFor="inputRepitaSenha">
-                                <input type="password"
-                                    id="inputRepitaSenha"
-                                    className="form-control"
-                                    name="senha"
-                                    onChange={e => this.setState({ senhaRepeticao: e.target.value })} />
-                            </FormControl>
+                {errors.cpf && (
+                  <FormErrorMessage>{errors.cpf.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
 
 
-                            <button onClick={this.cadastrar} type="button" className="btn btn-success">
-                                <i className="pi pi-save"></i> Enviar Solicitação de Cadastro
-                            </button>
+              <FormControl isInvalid={errors.celular}>
+                <FormLabel htmlFor="celular">Celular</FormLabel>
+                <Input
+                  id="celular"
+                  type="numeric"
+                  placeholder="ex: 49 999983513"
+                  {...register("celular", {
+                    required: "O celular é obrigatório!",
+                  })}
+                />
+
+                {errors.celular && (
+                  <FormErrorMessage>{errors.celular.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
 
-                            <button onClick={this.cancelar} type="button" className="btn btn-danger">
-                                <i className="pi pi-times"></i> Cancelar
-                            </button>
+              <FormControl isInvalid={errors.bairro}>
+                <FormLabel htmlFor="bairro">Bairro</FormLabel>
+                <Input
+                  id="bairro"
+                  type="text"
+                  placeholder="ex: Centro"
+                  {...register("bairro", {
+                    required: "O bairro é obrigatório!",
+                  })}
+                />
+
+                {errors.bairro && (
+                  <FormErrorMessage>{errors.bairro.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
 
-                        </div>
-                    </div>
-                </div>
-            </Card>
-        )
-    }
-}
+              <FormControl isInvalid={errors.numero}>
+                <FormLabel htmlFor="numero">Número</FormLabel>
+                <Input
+                  id="numero"
+                  type="numeric"
+                  placeholder="ex: 314"
+                  {...register("numero", {
+                    required: "O número é obrigatório!",
+                  })}
+                />
 
-export default CadastroUsuarioAluno
+                {errors.numero && (
+                  <FormErrorMessage>{errors.numero.message}</FormErrorMessage>
+                )}
+              </FormControl>
 
+
+
+
+              <FormControl isInvalid={errors.cep}>
+                <FormLabel htmlFor="cep">CEP</FormLabel>
+                <Input
+                  id="cep"
+                  type="numeric"
+                  placeholder="ex:"
+                  {...register("cep", {
+                    required: "O cep é obrigatório!",
+                  })}
+                />
+
+                {errors.cep && (
+                  <FormErrorMessage>{errors.cep.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+              <Box bg='tomato' w='100%' p={4} color='white'>
+                Vínculo
+              </Box>
+
+              <FormControl isInvalid={errors.instituicaoDeEnsino}>
+                <FormLabel htmlFor="instituicaoDeEnsino">Instituição de Ensino</FormLabel>
+                <Input
+                  id="instituicaoDeEnsino"
+                  type="text"
+                  placeholder="ex: UTFPR"
+                  {...register("instituicaoDeEnsino", {
+                    required: "A instituição de ensino é obrigatória!",
+                  })}
+                />
+
+                {errors.instituicaoDeEnsino && (
+                  <FormErrorMessage>{errors.instituicaoDeEnsino.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+
+              <FormControl isInvalid={errors.programaEnsino}>
+                <FormLabel htmlFor="programaDeEnsino">Nome do Programa de Ensino</FormLabel>
+                <Input
+                  id="programaDeEnsino"
+                  type="text"
+                  placeholder="ex: "
+                  {...register("programaDeEnsino", {
+                    required: "A programa de ensino é obrigatória!",
+                  })}
+                />
+
+                {errors.programaDeEnsino && (
+                  <FormErrorMessage>{errors.programaDeEnsino.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+              <FormControl isInvalid={errors.cpfOrientador}>
+                <FormLabel htmlFor="cpfOrientador">CPF do Orientadpr</FormLabel>
+                <Input
+                  id="cpfOrientador"
+                  type="numeric"
+                  placeholder="ex: 10001111111"
+                  {...register("cpfOrientador", {
+                    required: "O cpf do orientador é obrigatório!",
+                  })}
+                />
+
+                {errors.cpfOrientador && (
+                  <FormErrorMessage>{errors.cpfOrientador.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+
+
+              <Box bg='tomato' w='100%' p={4} color='white'>
+                Finalização - dados de acesso
+              </Box>
+              <FormControl isInvalid={errors.email}>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="ex: igormatiello@gmail.com"
+                  {...register("email", {
+                    required: "O email é obrigatório!",
+                  })}
+                />
+
+                {errors.email && (
+                  <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+
+              <FormControl isInvalid={errors.senha}>
+                <FormLabel htmlFor="senha">Senha</FormLabel>
+                <Input
+                  id="senha"
+                  type="text"
+                  placeholder="ex: "
+                  {...register("senha", {
+                    required: "A senha é obrigatória!",
+                  })}
+                />
+
+                {errors.senha && (
+                  <FormErrorMessage>{errors.senha.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+              <FormControl isInvalid={errors.confirmacaoSenha}>
+                <FormLabel htmlFor="confirmacaoSenha">Confirmação da Senha</FormLabel>
+                <Input
+                  id="confirmacaoSenha"
+                  type="text"
+                  placeholder="ex: "
+                  {...register("confirmacaoSenha", {
+                    required: "A confirmação da senha é obrigatória!",
+                  })}
+                />
+
+                {errors.confirmacaoSenha && (
+                  <FormErrorMessage>{errors.confirmacaoSenha.message}</FormErrorMessage>
+                )}
+              </FormControl>
+
+
+
+
+
+              <Flex justify="space-between" mt="30px">
+                <Button
+                  variant="ghost"
+                  mt="50px"
+                  onClick={onClose}
+                  isDisabled={isLoading}
+                >
+                  Voltar
+                </Button>
+
+                <Button
+                  mt="50px"
+                  type="submit"
+                  isLoading={isLoading}
+                  isDisabled={isLoading}
+                >
+                  Enviar Solicitação de Cadastro
+                </Button>
+              </Flex>
+            </Flex>
+          </form>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+export default CadastroUsuarioAluno;

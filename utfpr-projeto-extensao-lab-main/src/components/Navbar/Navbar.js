@@ -10,7 +10,8 @@ const menuItems = [
   { title: "Progamas de Ensino", link: "programa-ensino" },
   { title: "Equipamentos", link: "/equipamento" },
   { title: "Solicitações de Cadastro", link: "/solicitacao-cadastro" },
-  { title: "Perfil", link: "/perfil" }
+  { title: "Perfil", link: "/perfil" },
+  { title: "Vínculos", link: "/vinculos"}
 
 ];
 

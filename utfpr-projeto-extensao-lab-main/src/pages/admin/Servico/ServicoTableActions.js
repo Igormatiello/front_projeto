@@ -1,11 +1,11 @@
 import { Menu, MenuButton, MenuList, IconButton } from "@chakra-ui/react";
 
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import ServicoTableActionsEdit from "./ServicoTableActionsEdit";
 
-import VinculosTableActionsDelete from "./VinculosTableActionsDelete";
+import ServicoTableActionsDelete from "./ServicoTableActionsEdit";
 
-
-const VinculosTableActions = ({ vinculo }) => (
+const ServicoTableActions = ({ servico }) => (
   <Menu>
     <MenuButton
       as={IconButton}
@@ -15,9 +15,10 @@ const VinculosTableActions = ({ vinculo }) => (
     />
 
     <MenuList>
-      <VinculosTableActionsDelete vinculo={vinculo} />
+      <ServicoTableActionsEdit servico={servico} />
+      <ServicoTableActionsDelete servico={servico} />
     </MenuList>
   </Menu>
 );
 
-export default VinculosTableActions;
+export default ServicoTableActions;

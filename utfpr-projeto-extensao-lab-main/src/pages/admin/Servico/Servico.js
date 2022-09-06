@@ -11,16 +11,17 @@ import {
     Button,
     useDisclosure,
   } from "@chakra-ui/react";
-  import { Link } from "react-router-dom";
-
+  
   import Container from "components/Container";
-  import { useQueryListInstitutions } from "service/institutions";
+  import { useQueryListServicos } from "service/servicos";
   
-  import VinculosModalCreate from "./VinculosModalCreate";
+import ServicoTableActions from "./ServicoTableActions";
+import ServicoModalCreate from "./ServicoModalCreate";
+
 
   
-  const Vinculos= () => {
-    const { data, isLoading } = useQueryListInstitutions();
+  const Servico= () => {
+    const { data, isLoading } = useQueryListServicos();
   
     const { isOpen, onOpen, onClose } = useDisclosure();
   
@@ -47,24 +48,16 @@ import {
           minHeight="calc(100vh - 80px)"
         >
           <Text fontSize="25px" fontWeight="bold">
-          Vínculo - Instituição / Programa de Ensino
+            Serviços
           </Text>
   
           <Button mt="50px" width="350px" onClick={onOpen}>
-            Adicionar Vínculo
+            Adicionar Serviço
           </Button>
-
-          
-
-          
-          <Link key="registro" to="/pessoa-instituicao">
-            <Button variant="ghost">Desvincular uma pessoa de uma Instituição</Button>
-          </Link>
-
   
           <Container my="18px" direction="column" flex={1} p="32px">
             <Text fontSize="20px" fontWeight="semiBold">
-              Relação dos vículos do sistema
+              Relação dos serviços do sistema
             </Text>
   
             <Table variant="simple" mt="50px">
@@ -72,49 +65,36 @@ import {
                 <Tr>
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Orientador
+                      Serviço
                     </Text>
                   </Th>
   
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                      Crédito
+                      Equipamento
                     </Text>
                   </Th>
   
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Participante
+                      Descrição
                     </Text>
                   </Th>
-                  <Th>
-                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Programa Ensino
-                    </Text>
-                  </Th>
-                  <Th>
-                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Data término
-                    </Text>
-                  </Th>
-  
   
                   <Th></Th>
                 </Tr>
               </Thead>
   
               <Tbody>
-                {data.map((vinculo) => (
+                {data.map((servico) => (
                   <Tr
-                    key={vinculo.id}
+                    key={servico.id}
                     _hover={{ cursor: "pointer", background: "#eef" }}
                   >
-                    <Td>{vinculo.orientador}</Td>
-                    <Td>{vinculo.credito}</Td>
-                    <Td>{vinculo.participante}</Td>
-                    <Td>{vinculo.programaEnsino}</Td>
-                    <Td>{vinculo.dataTermino}</Td>  
+                    <Td>{servico.equipamento}</Td>
+                    <Td>{servico.descricao}</Td>
                     <Td isNumeric>
+                      <ServicoTableActions servico={servico} />
                     </Td>
                   </Tr>
                 ))}
@@ -123,9 +103,9 @@ import {
           </Container>
         </Flex>
   
-        <VinculosModalCreate isOpen={isOpen} onClose={onClose} />
+        <ServicoModalCreate isOpen={isOpen} onClose={onClose} />
       </>
     );
   };
   
-  export default Vinculos;
+  export default Servico;

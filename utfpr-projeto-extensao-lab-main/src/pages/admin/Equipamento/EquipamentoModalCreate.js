@@ -24,6 +24,7 @@ import { useQueryClient } from "react-query";
 
 import TextEditor from 'components/TextEditor'
 import TextEditor2 from 'components/TextEditor2'
+import TextEditor3 from 'components/TextEditor3'
 
 import { useMutationCreateEquipamento } from "service/equipamento";
 
@@ -249,7 +250,7 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="metodologia">
                   Metodologia:
 
-                <TextEditor  />
+                <TextEditor3  />
 
 
                 </FormLabel>
@@ -261,7 +262,7 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
                 <FormLabel htmlFor="laudoPadrao">
                  Laudo Padrão:
 
-                 <TextEditor
+                 <TextEditor3
                  
                  />
 
@@ -276,9 +277,9 @@ const EquipamentoModalCreate = ({ isOpen, onClose }) => {
 <div>
 <h1>
 inicio
-<TextEditor2>
+<TextEditor3>
   
-</TextEditor2>
+</TextEditor3>
 
 final
 </h1>

@@ -11,17 +11,17 @@ import {
     Button,
     useDisclosure,
   } from "@chakra-ui/react";
-  import { Link } from "react-router-dom";
-
+  
   import Container from "components/Container";
-  import { useQueryListInstitutions } from "service/institutions";
-  
-  import VinculosModalCreate from "./VinculosModalCreate";
+  import { useQueryListFormularios } from "service/formularios";
+
+  import FormulariosTableActions from "./FormulariosTableActions";
+import FormulariosModalCreate from "./FormulariosModalCreate";
 
   
-  const Vinculos= () => {
-    const { data, isLoading } = useQueryListInstitutions();
-  
+  const Formularios = () => {
+    const { data, isLoading } = useQueryListFormularios();
+    
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     if (isLoading) {
@@ -47,74 +47,80 @@ import {
           minHeight="calc(100vh - 80px)"
         >
           <Text fontSize="25px" fontWeight="bold">
-          Vínculo - Instituição / Programa de Ensino
+           Histórico de Formulários 
           </Text>
   
           <Button mt="50px" width="350px" onClick={onOpen}>
-            Adicionar Vínculo
+            Adicionar Formulário
           </Button>
-
-          
-
-          
-          <Link key="registro" to="/pessoa-instituicao">
-            <Button variant="ghost">Desvincular uma pessoa de uma Instituição</Button>
-          </Link>
-
   
           <Container my="18px" direction="column" flex={1} p="32px">
             <Text fontSize="20px" fontWeight="semiBold">
-              Relação dos vículos do sistema
+              Relação dos formulários do sistema
             </Text>
   
             <Table variant="simple" mt="50px">
               <Thead>
                 <Tr>
+                <Th>
+                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
+                      Requerente
+                    </Text>
+                  </Th>
+
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Orientador
+                      Serviço
                     </Text>
                   </Th>
   
+                  
+
+            
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                      Crédito
+                      Programa de Ensino
                     </Text>
                   </Th>
-  
+
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Participante
+                     Equipamento
                     </Text>
                   </Th>
+                  
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Programa Ensino
+                    Data de solicitação
                     </Text>
                   </Th>
+
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Data término
+                    Status
                     </Text>
                   </Th>
-  
+
   
                   <Th></Th>
                 </Tr>
               </Thead>
   
               <Tbody>
-                {data.map((vinculo) => (
+                {data.map((formularios) => (
                   <Tr
-                    key={vinculo.id}
+                    key={formularios.id}
                     _hover={{ cursor: "pointer", background: "#eef" }}
                   >
-                    <Td>{vinculo.orientador}</Td>
-                    <Td>{vinculo.credito}</Td>
-                    <Td>{vinculo.participante}</Td>
-                    <Td>{vinculo.programaEnsino}</Td>
-                    <Td>{vinculo.dataTermino}</Td>  
+                    <Td>{formularios.requerente}</Td>
+                    <Td>{formularios.servico}</Td> 
+                    <Td>{formularios.programaEnsino}</Td>
+                    <Td>{formularios.equipamento}</Td>
+                    <Td>{formularios.dataLancamento}</Td>
+                    <Td>{formularios.situacao}</Td>
+
                     <Td isNumeric>
+                      <FormulariosTableActions formularios={formularios} />
                     </Td>
                   </Tr>
                 ))}
@@ -123,9 +129,9 @@ import {
           </Container>
         </Flex>
   
-        <VinculosModalCreate isOpen={isOpen} onClose={onClose} />
+        <FormulariosModalCreate isOpen={isOpen} onClose={onClose} />
       </>
     );
   };
   
-  export default Vinculos;
+    export default Formularios;

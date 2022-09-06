@@ -18,6 +18,7 @@ const Pessoas = lazy(() => import("./Pessoa"));
 const ProgEnsino = lazy(() => import("./ProgEnsino"));
 const Perfil = lazy(() => import("./Pessoa/PessoaTableActionsEdit"));
 const SolicitaCadastro = lazy(() => import("./SolicitacaoCadastro"));
+const Vinculos=lazy(()=>import ("./Vinculos"));
 
 const Admin = () => {
   return (
@@ -35,6 +36,8 @@ const Admin = () => {
           <Route path="/programa-ensino" element={<ProgEnsino />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/solicitacao-cadastro" element={<SolicitaCadastro />} />
+          <Route path="/vinculos" element={<Vinculos />}/>
+
 
 
         </Routes>

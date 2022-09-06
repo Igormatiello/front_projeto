@@ -11,16 +11,17 @@ import {
     Button,
     useDisclosure,
   } from "@chakra-ui/react";
-  import { Link } from "react-router-dom";
-
+  
   import Container from "components/Container";
-  import { useQueryListInstitutions } from "service/institutions";
-  
-  import VinculosModalCreate from "./VinculosModalCreate";
 
+  import { useQueryListLancamentos } from "service/lancamentoFinanceiro";
   
-  const Vinculos= () => {
-    const { data, isLoading } = useQueryListInstitutions();
+  
+  import InstitutionsTableActions from "./InstitutionsTableActions";
+  import InsitutionsModalCreate from "./InsitutionsModalCreate";
+  
+  const LancamentoFinanceiro= () => {
+    const { data, isLoading } = useQueryListLancamentos();
   
     const { isOpen, onOpen, onClose } = useDisclosure();
   
@@ -47,24 +48,16 @@ import {
           minHeight="calc(100vh - 80px)"
         >
           <Text fontSize="25px" fontWeight="bold">
-          Vínculo - Instituição / Programa de Ensino
+            Lançamentos Financeiro
           </Text>
   
           <Button mt="50px" width="350px" onClick={onOpen}>
-            Adicionar Vínculo
+            Adicionar Lançamento
           </Button>
-
-          
-
-          
-          <Link key="registro" to="/pessoa-instituicao">
-            <Button variant="ghost">Desvincular uma pessoa de uma Instituição</Button>
-          </Link>
-
   
           <Container my="18px" direction="column" flex={1} p="32px">
             <Text fontSize="20px" fontWeight="semiBold">
-              Relação dos vículos do sistema
+              Relação dos lançamentos do sistema
             </Text>
   
             <Table variant="simple" mt="50px">
@@ -72,49 +65,73 @@ import {
                 <Tr>
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Orientador
+                      Data de criação
                     </Text>
                   </Th>
   
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                      Crédito
+                     Quantidade
                     </Text>
                   </Th>
   
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                     Participante
+                      Valor
                     </Text>
                   </Th>
+
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Programa Ensino
+                      Unidade de medida
                     </Text>
                   </Th>
+
                   <Th>
                     <Text color="greyText" fontSize="13px" fontWeight="semiBold">
-                    Data término
+                      Descrição
                     </Text>
                   </Th>
-  
-  
+
+                  <Th>
+                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
+                      Observação
+                    </Text>
+                  </Th>
+
+                  <Th>
+                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
+                      Número da nota fiscal
+                    </Text>
+                  </Th>
+
+                  <Th>
+                    <Text color="greyText" fontSize="13px" fontWeight="semiBold">
+                      Cancelado
+                    </Text>
+                  </Th>
+
                   <Th></Th>
                 </Tr>
               </Thead>
   
               <Tbody>
-                {data.map((vinculo) => (
+                {data.map((lancamento) => (
                   <Tr
-                    key={vinculo.id}
+                    key={lancamento.id}
                     _hover={{ cursor: "pointer", background: "#eef" }}
                   >
-                    <Td>{vinculo.orientador}</Td>
-                    <Td>{vinculo.credito}</Td>
-                    <Td>{vinculo.participante}</Td>
-                    <Td>{vinculo.programaEnsino}</Td>
-                    <Td>{vinculo.dataTermino}</Td>  
+                    <Td>{lancamento.dataLancamento}</Td>
+                    <Td>{lancamento.quantidade}</Td>
+                    <Td>{lancamento.valor}</Td>
+                    <Td>{lancamento.unidade}</Td>
+                    <Td>{lancamento.descricao}</Td>
+                    <Td>{lancamento.observacao}</Td>
+                    <Td>{lancamento.numeroNotaFiscal}</Td>
+                    <Td>{lancamento.ehCancelada}</Td>
+                    
                     <Td isNumeric>
+                      <InstitutionsTableActions lancamento={lancamento} />
                     </Td>
                   </Tr>
                 ))}
@@ -123,9 +140,9 @@ import {
           </Container>
         </Flex>
   
-        <VinculosModalCreate isOpen={isOpen} onClose={onClose} />
+        <InsitutionsModalCreate isOpen={isOpen} onClose={onClose} />
       </>
     );
   };
   
-  export default Vinculos;
+  export default LancamentoFinanceiro;

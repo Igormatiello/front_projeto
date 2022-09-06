@@ -6,7 +6,7 @@ import LoadingBox from "components/LoadingBox";
 
 const Login = lazy(() => import("./Login"));
 const Registro = lazy(() => import("./Registro"));
-const CadastroAluno = lazy(()=> import ("./Teste"));
+const CadastroAluno = lazy(()=> import ("./CadastroAluno"));
 const CadastroProfessor = lazy(()=> import ("./CadastroProfessor"));
 const CadastroEmpresa = lazy(()=> import ("./CadastroEmpresa"));
 
